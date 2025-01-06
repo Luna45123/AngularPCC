@@ -1,0 +1,245 @@
+<div class="main ml-5 mr-5 mt-3">
+    <div class="header col-md-12">
+        <div class="row col-md-12 d-flex align-items-center">
+            <div class="input-text-header col-md-4 mb-4 mt-2 mr-5 ml-2">
+                <label for="number" class="mt-3">เลขที่ใบสรุป</label>
+                <input type="text" [(ngModel)]="headNumber" name="number" class="form-control">
+            </div>
+            <div class="input-text-header col-md-4 mb-4 mt-2 mr-5">
+                <label for="date" class="mt-3">วันที่</label>
+                <input [(bsValue)]="date" type="text" placeholder="DD/MM/YYYY" class="form-control custom-datepicker"
+                    id="dob" bsDatepicker [bsConfig]="bsConfig" #dp="bsDatepicker">
+            </div>
+            <button type="button" class="btn btn-custom mt-4" style="width: 100px; height: 37px;"
+                (click)="searchHDApi()">ค้นหา</button>
+        </div>
+    </div>
+
+    <div class="content col-md-12">
+        <div class="row col-md-12 mb-5">
+            <fieldset class="detail col-md-7 mr-5 ml-4">
+                <legend class="legend1">ภ.พ.10</legend>
+                <div class="row col-md-12">
+                    <div class="col-md-5 mt-3 ml-5">
+                        <label for="formNumber">เล่มที่</label>
+                        <input [(ngModel)]="formNumber" type="text" name="formNumber" id="formNumber" class="form-control" required>
+                    </div>
+                    <div class="col-md-5 mt-3 ml-5">
+                        <label for="formBookNumber">เลขที่</label>
+                        <input [(ngModel)]="formBookNumber" type="text" name="formBookNumber" id="formBookNumber" class="form-control" required>
+                    </div>
+
+                </div>
+
+                <div class="row col-md-12">
+                    <div class="col-md-5 mt-3 ml-5">
+                        <label for="formDate">วันที่จัดทำ ภ.พ.10</label>
+                        <input [(bsValue)]="formDate" type="text" placeholder="DD/MM/YYYY" class="form-control custom-datepicker"
+                        id="dob" bsDatepicker [bsConfig]="bsConfig" #dp="bsDatepicker" name="formDate" required>
+                    </div>
+                    <div class="col-md-5 mt-3 ml-5">
+                        <label for="formAmout">ยอดซื้อ</label>
+                        <input [(ngModel)]="formAmout" (change)="calltex()" type="text" name="formAmout" id="formAmout" class="form-control" placeholder="0.00" required>
+                    </div>
+                </div>
+
+
+                <div class="bs-container col-md-11 mt-4">
+                    <div class="row col-md-12 d-flex justify-content-end mb-3 ml-3">
+                        <label for="formPtextNumber" class="mr-3">เลขประจำตัวผู้เสียภาษี</label>
+                        <input [(ngModel)]="formPtextNumber" type="text" [maxLength]="13" name="formPtextNumber" id="formPtextNumber" class="form-control col-md-4" required>
+                    </div>
+                    
+                    <div class="row col-md-12 d-flex justify-content-end mb-3 ml-3">
+                        <label for="formBranch" class="mr-3">สาขาที่</label>
+                        <input [maxLength]="5" [(ngModel)]="formBranch" type="text" name="formBranch" id="formBranch" class="form-control col-md-4" required>
+                    </div>
+
+                    <div class="row col-md-12 d-flex justify-content-end mb-3 ml-3">
+                        <label for="formBsName" class="mr-3">ชื่อสถานประกอบการ</label>
+                        <input [(ngModel)]="formBsName" type="text" name="formBsName" id="formBsName" class="form-control col-md-4" required>
+                    </div>
+                </div>
+
+            </fieldset>
+
+
+
+            <fieldset class="summary-section">
+                <legend class="legend2">Vat ภาษี และ ค่าธรรมเนียม</legend>
+                <div class="content-summary">
+                    <table>
+                        <tr>
+                            <th style="text-align: right;">Vat 7%</th>
+                            <td style="padding-left: 50px;">{{text}}</td>
+                        </tr>
+                        <tr>
+                            <th style="text-align: right;">ภาษีที่ได้รับคืน(กรมสรรพากร)</th>
+                            <td style="padding-left: 50px;">{{vrtrate}}</td>
+                        </tr>
+                        <tr>
+                            <th style="text-align: right;">ภาษีที่ได้รับคืนจากตัวแทน</th>
+                            <td style="padding-left: 50px;">{{vrtrateag}}</td>
+                        </tr>
+                        <tr>
+                            <th style="text-align: right;">ค่าธรรมเนียมในการคืน</th>
+                            <td style="padding-left: 50px;">{{charge}}</td>
+                        </tr>
+                    </table>
+                </div>
+
+            </fieldset>
+        </div>
+
+        <div class="add-btn">
+            <button type="button" class="btn btn-custom mb-5" style="width: 100px;" (click)="addData()">{{addBtnText}}</button>
+        </div>
+
+
+    </div>
+
+
+
+    <div class="table-container">
+        <nz-table #basicTable [nzNoResult]="nzNoResult" [nzData]="currentPageDataDt" class="table" [nzBordered]="true" [nzShowPagination]="false">
+            <thead>
+                <tr class="table-primary">
+                    <th class="text-center align-middle">เล่มที่อ้างอิงการขาย</th>
+                    <th class="text-center align-middle">เลขที่อ้างอิงการขาย</th>
+                    <th class="text-center align-middle">วันที่จัดทำ</th>
+                    <th class="text-center align-middle">ชื่อสถานประกอบการ</th>
+                    <th class="text-center align-middle">ยอดซื้อ</th>
+                    <th class="text-center align-middle">ภาษีมูลค่าเพิ่ม</th>
+                    <th class="text-center align-middle">ภาษีที่ได้รับคืน(กรมสรรพากร)</th>
+                    <th class="text-center align-middle">ภาษีที่ได้รับคืน(ตัวแทน)</th>
+                    <th class="text-center align-middle">ค่าธรรมเนียมในการคืน</th>
+                    <th class="text-center align-middle" style="width: 150px;"></th>
+                </tr>
+            </thead>
+            <tbody class="text-center con">
+                <tr *ngFor="let d of currentPageDataDt; index as i"  class="text-center con">
+                    <td [attr.data-color]="d.color" class="text-center">{{d.vdtNo}}</td>
+                    <td [attr.data-color]="d.color" class="text-center">{{d.bookRef}}</td>
+                    <td [attr.data-color]="d.color" class="text-center">{{d.createDate | thDate}}</td>
+                    <td [attr.data-color]="d.color" class="text-center">{{d.bsName + " " + "(" + d.branch + ") "+d.pnum}}</td>
+                    <td [attr.data-color]="d.color" class="text-center">{{d.amount}}</td>
+                    <td [attr.data-color]="d.color" class="text-center">{{d.vatAmount}}</td>
+                    <td [attr.data-color]="d.color" class="text-center">{{d.vatTax}}</td>
+                    <td [attr.data-color]="d.color" class="text-center">{{d.vatAgent}}</td>
+                    <td [attr.data-color]="d.color" class="text-center">{{d.freeAmount}}</td>
+                    <td [attr.data-color]="d.color" class="text-center">
+                        <button type="button" class="btn btn-custom"><img src="../../assets/table/edit.png" alt="" srcset="" class="edit-cumtom" (click)="edit(d,i)"></button>
+                        <button type="button" class="btn btn-danger" style="margin-left: 5px;"><img src="../../assets/table/delete.png" alt="" srcset="" (click)="delete(i)" class="delete-cumtom"></button>
+                    </td>
+                </tr>
+
+            </tbody>
+            <ng-template #nzNoResult>
+                <div class="custom-no-data">
+                    <img src="../../assets/table/5.webp" alt="" class="no-data-img" />
+                    <p>No records found.</p>
+                </div>
+            </ng-template>
+        </nz-table>
+        <!-- <div class="cpang">
+         <nz-pagination [nzPageSize]="pageSizeDt" [nzPageIndex]="currentPageIndexDt" [nzTotal]="totalRecordsDt" nzShowSizeChanger [nzPageSizeOptions]="[5, 10, 20, 50]" (nzPageSizeChange)="onPageSizeChange($event)" (nzPageIndexChange)="onPageChangeDt($event)"></nz-pagination>
+        </div> -->
+
+
+        <div class="row" style="display: flex; justify-content: center; align-items: center;">
+            <div class="save-btn mb-5 mr-3">
+                <button type="button" class="btn btn-custom" style="width: 100px;" (click)="save()" [disabled]="loading">บันทึก</button>
+            </div>
+            <div class="d-btn mb-5 mr-3">
+                <button type="button" class="btn btn-secondary" style="width: 105px;">พิมพ์ใบสรุป</button>
+            </div>
+            <div class="d-btn mb-5">
+                <button type="button" class="btn btn-danger" style="width: 100px;" (click)="clearAll()">ล้างจอภาพ</button>
+            </div>
+        </div>
+
+
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" bsModal #seeModal="bs-modal" id="exampleModal" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true" (click)="close()">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <nz-table #basicTable [nzNoResult]="nzNoResultModel" [nzData]="currentPageData" class="table-model"
+                        [nzBordered]="true" [nzShowPagination]="false">
+                        <div class="tableModel">
+                            <thead>
+                                <tr class="table-model">
+                                    <th class="text-center">เลขที่ใบสรุป</th>
+                                    <th class="text-center">วันที่จัดทำ</th>
+                                </tr>
+                            </thead>
+                        </div>
+
+                        <tbody>
+                            <tr *ngFor="let d of currentPageData;" class="text-center con">
+                                <td>{{d.vdtNo}}</td>
+                                <td>{{d.vdtDate | thDate}}</td>
+                            </tr>
+                         
+                        </tbody>
+                        <ng-template #nzNoResultModel>
+                            <div class="custom-no-data">
+                                <img src="../../assets/table/5.webp" alt="" class="no-data-img" />
+                                <p>No records found.</p>
+                            </div>
+                        </ng-template>
+                     
+
+                    </nz-table>
+                    <div class="cpang">
+                        <nz-pagination [nzPageSize]=10 [nzTotal]="totalRecords" [nzShowSizeChanger]="false"
+                            [(nzPageIndex)]="currentPageIndex" (nzPageIndexChange)="onPageChange($event)"
+                            class="ngp">
+                        </nz-pagination>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-custom" (click)="close()">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* nz-table {
+      animation: colorChange 0.25s infinite linear;
+    }
+
+    @keyframes colorChange {
+      0% {
+        background-color: red;
+        rotate: 0;
+      }
+
+      25% {
+        background-color: blue;
+      }
+
+      50% {
+        background-color: green;
+      }
+
+      75% {
+        background-color: yellow;
+      }
+
+      100% {
+        background-color: red;
+        rotate: 360deg;
+      }
+    } */
+  </style>

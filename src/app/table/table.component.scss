@@ -1,0 +1,138 @@
+#container {
+    width: 100%;
+    height: auto;
+    padding-bottom: 50px;
+}
+
+.tableMain {
+    padding: 50px 50px 0 50px;
+}
+
+.tableMain h1 {
+    color: rgb(0, 0, 0);
+}
+
+.table-primary th {
+    background-color: rgb(126, 54, 141);
+    color: white;
+    font-size: 150%;
+}
+
+.title{
+    color: rgb(85, 9, 100);
+}
+
+.add-cumtom{
+    width: 30px;
+}
+.edit-cumtom{
+   
+    width: 25px;
+}
+.delete-cumtom{
+    width: 25px;
+}
+.add-cumtom:hover{
+    opacity: 70%;
+}
+.con td {
+    font-size: 115%;
+}
+
+.btn-success {
+    background-color: rgb(146, 114, 226);
+    border-color: rgb(146, 114, 226);
+}
+.btn-custom:hover{
+    background-color: rgb(122, 97, 187);
+    border-color:rgb(122, 97, 187);
+    
+}
+.btn-custom:focus ,btn-custom:focus:active{
+    box-shadow: 0px 0px 0px 3px rgb(199, 176, 255)
+
+}
+.btn-custom{
+    background-color: rgb(146, 114, 226);
+    color: white;
+}
+
+.custom-no-data {
+    text-align: center;
+    color: #999;
+    font-size: 16px;
+}
+
+.no-data-img {
+    max-width: 150px;
+    margin: 20px auto;
+    display: block;
+    border-radius: 100%;
+}
+.buttonH{
+    display: flex;
+}
+.buttonH+i{
+    position: absolute;
+    left: 24.5%;
+    top: 13%
+}
+.buttonH+i img{
+    max-width: 19px;
+}
+
+.custom-datepicker {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    height: 36px;
+    padding: 0 10px;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    box-shadow: none;
+}
+
+.custom-datepicker:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 3px rgba(0, 123, 255, 0.5);
+}
+
+.custom-datepicker+button {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    border: none;
+    background: none;
+    padding: 0;
+    cursor: pointer;
+}
+.search-cumtom{
+    display: flex;
+
+}
+
+.search-cumtom input{
+    width: 25%;
+}
+.custom-datepicker+button img {
+    width: 20px;
+    height: 20px;
+}
+
+
+.cpang {
+    display: flex;
+    justify-content: flex-end;
+}
+.head-text{
+    display: flex;
+}
+.head-text img{
+    width: 50px;
+    float: left;
+    margin: 0 0 1% 1%;
+}
+#gender{
+    margin: 5% 0 5% 0;
+}

@@ -1,0 +1,24 @@
+<p>onework works!</p>
+
+<p>var = {{[(num)]}}</p>
+<h1>Your name {{username}}</h1> <br>
+<input type="text" [(ngModel)]="username">
+<br><br>
+<input type="number" [(ngModel)]="usernum">
+<input type="number" [(ngModel)]="usernum2">
+
+<button (click)="onClick()">click</button>
+
+<br><br>
+<div>
+    <input type="text" [formControl]="value1">
+    <button type="button" (click)="onClick3()">FormCon</button>
+</div>
+<br><br>
+<div>
+    <form action="" [formGroup]="myformgroup">
+        <input type="text" formControlName="user">
+        <input type="text" formControlName="pass">
+        <button type="button" (click)="onClickFormgroup()">Click</button>
+    </form>
+</div>

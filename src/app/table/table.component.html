@@ -1,0 +1,237 @@
+<div id="container">
+    <div class="tableMain">
+        <div class="doc"></div>
+        <div class="form-container col-md-12">
+            <div class="head-text">
+                <h1><b class="title">บันทึกข้อมูลผู้ใช้</b></h1>
+                <img src="../../assets/table/paper.png" alt="">
+            </div>
+            <div class="row">
+                <div class="col-md-2 mr-5 mb-3">
+                    <h6><b style="color: rgb(85, 9, 100);">รหัสผู้ใช้งาน</b></h6>
+                    <input [(ngModel)]="searchUserId" type="text" class="form-control buttonH" placeholder="ค้นหา-รหัสผู้ใช้งาน">
+                </div>
+                <div class="col-md-2 mr-5 mb-3">
+                    <h6><b style="color: rgb(85, 9, 100);">ชื่อ-นามสกุล</b></h6>
+                    <input [(ngModel)]="searchName" type="text" class="form-control buttonH" placeholder="ค้นหา-ชื่อ-นามสกุล">
+                </div>
+                <div class="col-md-2 mr-5 mb-3">
+                    <h6><b style="color: rgb(85, 9, 100);">ค้นหา-อายุ</b></h6>
+                    <input [(ngModel)]="searchAge" type="text" class="form-control buttonH" placeholder="ค้นหา-อายุ">
+                </div>
+                
+                
+                
+            </div>
+            <div class="row">
+                <div class="col-md-2 mr-5 mb-3">
+                    <h6><b style="color: rgb(85, 9, 100);">วันเกิด</b></h6>
+                    <input
+                    [(bsValue)]="searchBirthday" 
+                    type="text" 
+                    placeholder="ค้นหา-วันเกิด"
+                    class="form-control buttonH custom-datepicker" 
+                    id="dob" 
+                    bsDatepicker
+                    [bsConfig]="bsConfig"
+                    (bsValueChange)="bsValue()"
+                    id="setD">
+                </div>
+                <div class="col-md-2 mr-5 mb-3">
+                    <h6><b style="color: rgb(85, 9, 100);">เพศ</b></h6>
+                    <select [(ngModel)]="searchGender" class="form-select" style="width: 100%; height: 55%;" id="searchGender" name="searchGender">
+                        <option value="" selected>-</option>
+                        <option value="male">ชาย</option>
+                        <option value="female">หญิง</option>
+                        <option value="other">อื่นๆ</option>
+                      </select>
+                </div>
+                <div class="col-md-2 mr-5 mb-3">
+                    <h6><b style="color: rgb(85, 9, 100);">วันที่บันทึก</b></h6>
+                    <input
+                        [(bsValue)]="searchRDate" 
+                        type="text" 
+                        placeholder="ค้นหา-วันที่บันทึก"
+                        class="form-control buttonH custom-datepicker" 
+                        id="dob" 
+                        bsDatepicker
+                        [bsConfig]="bsConfig"
+                        (bsValueChange)="bsValue()" 
+                        id="setD"
+                    >
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="col-md-2 mb-3">
+                    <h6><b style="color: rgb(85, 9, 100);">บันทึกโดย</b></h6>
+                    <input [(ngModel)]="searchBy" type="text" class="form-control buttonH" placeholder="ค้นหา-บันทึกโดย">
+                </div>
+                <div class="col-md-6 mr-5 mb-3">
+                    <div class="mb-4"></div>
+                    <button type="button" class="btn btn-custom ml-5" style="height: 40px; width: 70px;" (click)="callApiSearch()">ค้นหา</button>
+                    <button type="button" class="btn btn-danger ml-3" style="height: 40px; width: 70px;" (click)="clearData()">ล้าง</button>
+                </div>
+            </div>
+
+        </div>
+        
+            <!-- <i><img src="../../assets/table/search.png" alt="calendar" /></i>         -->
+
+        <nz-table #basicTable [nzData]="currentPageData" [nzNoResult]="nzNoResult" class="table" [nzBordered]="true"
+            [nzShowPagination]="false">
+            <thead>
+                <tr class="table-primary">
+                    <th class="text-center">ลำดับ</th>
+                    <th class="text-center">รหัสผู้ใช้งาน</th>
+                    <th class="text-center">ชื่อ-นามสกุล </th>
+                    <th class="text-center">วันเกิด</th>
+                    <th class="text-center">อายุ</th>
+                    <th class="text-center">เพศ</th>
+                    <th class="text-center">บันทึกวันที่</th>
+                    <th class="text-center">บันทึกโดย</th>
+                    <th class="text-center">
+                       <img src="../../assets/table/add.png" alt="" class="add-cumtom"  (click)="open()">
+                    </th>
+                </tr>
+            </thead>
+            <tbody class="text-center con">
+                <tr *ngFor="let d of currentPageData; index as i">
+                    <td>{{ (currentPageIndex - 1) * pageSize + i + 1 }}</td>
+                    <td>{{d.userId}}</td>
+                    <td>{{d.firstName + " " + d.lastName}}</td>
+                    <td>{{d.birthday| thDate}}</td>
+                    <td>{{d.age}}</td>
+                    <td>{{ sexMapping[d.sex.toLowerCase()] || d.sex }}</td>
+                    <td>{{d.date | thDate}}</td>
+                    <td>{{d.by}}</td>
+                    <td>
+                        <button type="button" class="btn btn-custom" (click)="edit(d, d.id)"><img src="../../assets/table/edit.png" alt="" srcset="" class="edit-cumtom"></button>
+                        <button type="button" class="btn btn-danger" (click)="delete(d.id)" style="margin-left: 5px;"><img src="../../assets/table/delete.png" alt="" srcset="" class="delete-cumtom"></button>
+                    </td>
+                </tr>
+
+            </tbody>
+            <ng-template #nzNoResult>
+                <div class="custom-no-data">
+                    <img src="../../assets/table/5.webp" alt="" class="no-data-img" />
+                    <p>No records found.</p>
+                </div>
+            </ng-template>
+        </nz-table>
+        <div class="cpang">
+            <nz-pagination [nzPageSize]="pageSize" [nzTotal]="totalRecords" [nzShowSizeChanger]="true"
+                [nzPageSizeOptions]="[5, 10, 20, 50]" (nzPageSizeChange)="onPageSizeChange($event)" [(nzPageIndex)]="currentPageIndex"
+                (nzPageIndexChange)="onPageChange($event)" class="ngp">
+            </nz-pagination>
+        </div>
+        <div id="gender" style="width: 65%; height: 600px; margin-right: auto; margin-left: auto;"></div>
+        <div id="age" style="width: 65%; height: 600px; display: table; margin-right: auto; margin-left: auto;"></div>
+    </div>
+</div>
+
+
+
+<!-- Modal -->
+<div class="modal fade" bsModal #addModel="bs-modal" tabindex="-1" aria-labelledby="userModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="userModalLabel">กรุณากรอกข้อมูลการใช้งาน</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" (click)="close()">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-row mb-3">
+                        <div class="col-md-6">
+                            <label for="firstName" class="form-label">ชื่อ</label>
+                            <input [(ngModel)]="firstName" type="text" class="form-control" id="firstName"
+                                name="firstName" placeholder="ชื่อ">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="lastName" class="form-label">นามสกุล</label>
+                            <input [(ngModel)]="lastName" type="text" class="form-control" id="lastName" name="lastName"
+                                placeholder="นามสกุล">
+                        </div>
+                    </div>
+                    <div class="form-row mb-3">
+                        <div class="col-md-6">
+                            <label for="dob" class="form-label">วันเกิด</label>
+                            <div class="custom-datepickerMain"><input 
+                                [(bsValue)]="birthday" 
+                                type="text" 
+                                placeholder="DD/MM/YYYY"
+                                class="form-control custom-datepicker" 
+                                id="dob" 
+                                bsDatepicker
+                                [bsConfig]="bsConfig"
+                                (bsValueChange)="bsValue()" 
+                                #dp="bsDatepicker" 
+                                id="setD">
+                                <button type="button" (click)="dp.toggle()">
+                                    <img src="../../assets/table/calendar.ico" alt="calendar" />
+                                </button>
+                            </div>
+                            
+                          
+                        </div>
+                        <div class="col-md-6">
+                            <label for="age" class="form-label">อายุ</label>
+                            <input [(ngModel)]="formage" type="number" class="form-control" id="age" name="age"
+                                placeholder="อายุ" disabled>
+                        </div>
+                    </div>
+                     <div class="form-row mb-3">
+                        <div class="col-md-6">
+                            <label for="gender" class="form-select">เพศ</label>
+                            <select [(ngModel)]="sex" class="form-control" id="gender" name="gender" style="margin-top: 0;">
+                                <option value="male">ชาย</option>
+                                <option value="female">หญิง</option>
+                                <option value="other">อื่นๆ</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="recBy" class="form-label">บันทึกโดย</label>
+                            <input [(ngModel)]="recBy" type="text" class="form-control" id="recBy" name="recBy"placeholder="บันทึกโดย">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-custom" (click)="add()">บันทึก</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="close()">ยกเลิก</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" bsModal #deleteModel="bs-modal" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel" style="color: red;">คุณแน่ใจที่จะลบข้อมูลไหม</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true" (click)="closeD()">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          เมื่อลบข้อมูลแล้วจะไม่สามารถนำกลับมาได้
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-custom" data-dismiss="modal" (click)="closeD()">ปิด</button>
+          <button type="button" class="btn btn-danger" (click)="confirmDelete()">ลบ</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+<style>
+
+
+
+</style>

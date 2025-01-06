@@ -1,0 +1,73 @@
+<div class="container">
+    <div>
+        <ul>
+            <li *ngFor="let n of num">
+                <span *ngIf="n==1">{{n + 'สวัสดี'}}</span>
+                <span *ngIf="n!=1 && n != 5">{{n}}</span>
+                <span *ngIf="n==5">{{n + 'ลาก่อน'}}</span>
+            </li>
+        </ul>
+
+
+    </div>
+    <div *ngIf="isBoolean == false">
+        <h3> This is TEXT! </h3>
+    </div>
+    <div>
+        <input type="text" [(ngModel)]="name">
+        <button type="button" class="btn btn-success" (click)="onClick()" style="margin: 0 0 0 10px;">submit</button>
+    </div>
+    <br><br>
+    <div class="row">
+        <div class="form-group">
+            <input [(bsValue)]="date1" type="text" placeholder="DD/MM/YYYY" class="form-control" bsDatepicker
+                [bsConfig]="{ isAnimated: true, showWeekNumbers: false } " (bsValueChange)="bsValue()">
+            <br>
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-primary" data-toggle="modal" (click)="openModel()">
+                Launch demo modal
+            </button>
+
+            <!-- Modal -->
+            <div class="modal fade" bsModal #testModal="bs-modal"  tabindex="-1" role="dialog"
+                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            {{date1}}
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" (click)="closeModel()">Close</button>
+                            <button type="button" class="btn btn-primary" (click)="closeSave()">Save changes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div>
+        <nz-table #basicTable [nzData]="dayList" class="table">
+            <thead>
+                <tr class="table-primary">
+                    <th>วัน</th>
+                    <th>สี</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let d of dayList">
+                    <td>{{d.day}}</td>
+                    <td>{{d.col}}</td>
+                </tr>
+
+            </tbody>
+        </nz-table>
+    </div>
+</div>
