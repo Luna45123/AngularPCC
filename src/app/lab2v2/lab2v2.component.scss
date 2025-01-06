@@ -1,0 +1,209 @@
+.tableMain {
+    padding: 50px 50px 0 50px;
+}
+
+.tableMain h1 {
+    color: rgb(0, 0, 0);
+}
+
+.table-primary th {
+    background-color: rgb(126, 54, 141);
+    color: white;
+    font-size: 140%;
+}
+
+.table-model th {
+    background-color: rgb(126, 54, 141);
+    color: white;
+    font-size: 100%;
+}
+
+.title {
+    color: rgb(85, 9, 100);
+}
+
+.add-cumtom {
+    width: 30px;
+}
+
+.edit-cumtom {
+
+    width: 25px;
+}
+
+.delete-cumtom {
+    width: 25px;
+}
+
+.add-cumtom:hover {
+    opacity: 70%;
+}
+
+.con td {
+    font-size: 115%;
+}
+
+.btn-success {
+    background-color: rgb(146, 114, 226);
+    border-color: rgb(146, 114, 226);
+}
+
+.btn-custom:hover {
+    background-color: rgb(122, 97, 187);
+    border-color: rgb(122, 97, 187);
+
+}
+
+.btn-custom:focus,
+btn-custom:focus:active {
+    box-shadow: 0px 0px 0px 3px rgb(199, 176, 255)
+}
+
+.btn-custom {
+    background-color: rgb(146, 114, 226);
+    color: white;
+}
+
+.custom-no-data {
+    text-align: center;
+    color: #999;
+    font-size: 16px;
+}
+
+.no-data-img {
+    max-width: 150px;
+    margin: 20px auto;
+    display: block;
+    border-radius: 100%;
+}
+
+.buttonH {
+    display: flex;
+}
+
+.buttonH+i {
+    position: absolute;
+    left: 24.5%;
+    top: 13%
+}
+
+.buttonH+i img {
+    max-width: 19px;
+}
+
+.custom-datepicker {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    height: 36px;
+    padding: 0 10px;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    box-shadow: none;
+}
+
+.custom-datepicker:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 3px rgba(0, 123, 255, 0.5);
+}
+
+.custom-datepicker+button {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    border: none;
+    background: none;
+    padding: 0;
+    cursor: pointer;
+}
+
+.search-cumtom input {
+    width: 25%;
+}
+
+.custom-datepicker+button img {
+    width: 20px;
+    height: 20px;
+}
+
+.cpang {
+    margin-top: 5%;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.add-btn {
+    display: flex;
+    justify-content: center;
+}
+
+.tableModel thead tr th {
+    font-size: 16px;
+}
+
+.summary-section {
+    border: 2px rgb(190, 190, 190, 0.4) solid;
+    border-radius: 10px;
+    height: 100%;
+    width: 500px;
+}
+
+.summary-section .content-summary {
+    margin: 0 0 5% 15%;
+}
+
+.detail {
+    border: 2px rgb(190, 190, 190, 0.4) solid;
+    border-radius: 10px;
+    height: auto;
+    overflow: hidden;
+    display: block;
+}
+
+.legend1 {
+    width: 60px;
+    padding: 0 10px;    
+    color: #000;
+    font-size: small;
+}
+.legend2 {
+    width: 163px;
+    padding: 0 10px;    
+    color: #000;
+    font-size: small;
+    margin: 10px;
+}
+
+td[data-color="add"] {
+    background-color: #dfffe4;
+}
+
+td[data-color="delete"] {
+    background-color: #ffd1e0;
+}
+
+
+td[data-color="edit"] {
+    background-color: #fff8d4;
+}
+tbody.con td:hover {
+    // background-color: rgb(255, 201, 201);
+    // color: white; 
+    transition: background-color 0.3s ease; /* Smooth transition effect */
+}
+
+@media screen and (max-width:1600px) {
+    .summary-section {
+        border: 2px rgb(190, 190, 190, 0.4) solid;
+        border-radius: 10px;
+        height: 100%;
+        width: 500px;
+        margin-top: 5%;
+    }
+
+    .table-primary th {
+        font-size: 100%;
+    }
+
+}

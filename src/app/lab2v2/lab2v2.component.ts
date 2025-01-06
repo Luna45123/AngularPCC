@@ -6,18 +6,17 @@ import { ModalDirective } from 'ngx-bootstrap/modal';
 import { DtDataItem } from '../dt-data-item';
 import { ThDatePipe } from '../shared/th-date.pipe';
 import Swal from 'sweetalert2';
+import { DtDataItem2 } from '../dt-data-item2';
 
 @Component({
-  selector: 'app-lab2',
-  templateUrl: './lab2.component.html',
-  styleUrls: ['./lab2.component.scss'],
+  selector: 'app-lab2v2',
+  templateUrl: './lab2v2.component.html',
+  styleUrls: ['./lab2v2.component.scss'],
   providers: [DatePipe, ThDatePipe]
 })
+export class Lab2v2Component implements OnInit {
 
-
-export class Lab2Component implements OnInit {
   @ViewChild('seeModal') seeModal!: ModalDirective;
-  @ViewChild('confirmModal') confirmModel!: ModalDirective;
   bsConfig: Partial<BsDatepickerConfig>;
   constructor(private http: HttpClient, private datepipe: DatePipe) {
     this.bsConfig = Object.assign({}, { locale: 'th', containerClass: 'theme-default', isAnimated: true, showWeekNumbers: false, dateInputFormat: 'DD/MM/YYYY' });
@@ -94,8 +93,10 @@ export class Lab2Component implements OnInit {
 
   tempInput: String = "";
 
+  heand:String = "";
   searchHDApi() {
     console.log(this.headNumber);
+    this.heand = this.headNumber;
     if (this.date == '' || this.date == null) {
       this.searchDT();
     } else {
@@ -157,7 +158,7 @@ export class Lab2Component implements OnInit {
 
   clearFormDT() {
     this.formBookNumber = null;
-    this.formNumber = null;
+    this.tempInput = "";
     this.formDate = null;
     this.formAmout = null;
     this.formPtextNumber = null;
@@ -189,20 +190,20 @@ export class Lab2Component implements OnInit {
     this.filterData();
   }
   addData() {
-    let newData!: DtDataItem;
-    if (!this.formBookNumber || !this.formNumber || !this.formDate || !this.formAmout || !this.formPtextNumber || !this.formBranch || !this.formBsName) {
+    let newData!: DtDataItem2;
+    if (!this.formBookNumber || !this.tempInput || !this.formDate || !this.formAmout || !this.formPtextNumber || !this.formBranch || !this.formBsName) {
       alert('กรุณากรอกข้อมูลให้ครบทุกช่อง');
       return;
     }
-    console.log(this.index);
     if (this.index >= 0) {
+      console.log(this.heand);
       newData = {
-        id: this.id, bookRef: this.formBookNumber, vdtNo: this.formNumber, date: this.datepipe.transform(this.formDate, 'dd/MM/yyyy'), createDate: this.datepipe.transform(this.formDate, 'dd/MM/yyyy'), pnum: this.formPtextNumber, bsName: this.formBsName, amount: this.formAmout, vatAmount: this.text, vatTax: this.vrtrate, vatAgent: this.vrtrateag, freeAmount: this.charge, branch: this.formBranch, color: 'edit', delete: false, update: true, createBy: "System", updateBy: "System"
+        id: this.id, bookRef: this.formBookNumber, vdtNo: this.heand, date: this.datepipe.transform(this.formDate, 'dd/MM/yyyy'), createDate: this.datepipe.transform(this.formDate, 'dd/MM/yyyy'), pnum: this.formPtextNumber, bsName: this.formBsName, amount: this.formAmout, vatAmount: this.text, vatTax: this.vrtrate, vatAgent: this.vrtrateag, freeAmount: this.charge, branch: this.formBranch, color: 'edit', delete: false, update: true, tempInput: this.tempInput,createBy:"System",updateBy:"System"
       };
       this.Dtdata[this.index] = newData;
     } else {
       newData = {
-        id: 0, bookRef: this.formBookNumber, vdtNo: this.formNumber, date: this.datepipe.transform(this.formDate, 'dd/MM/yyyy'), createDate: this.datepipe.transform(this.formDate, 'dd/MM/yyyy'), pnum: this.formPtextNumber, bsName: this.formBsName, amount: this.formAmout, vatAmount: this.text, vatTax: this.vrtrate, vatAgent: this.vrtrateag, freeAmount: this.charge, branch: this.formBranch, color: 'add', delete: false, update: false, createBy: "System", updateBy: "System"
+        id: 0, bookRef: this.formBookNumber, vdtNo: this.heand, date: this.datepipe.transform(this.formDate, 'dd/MM/yyyy'), createDate: this.datepipe.transform(this.formDate, 'dd/MM/yyyy'), pnum: this.formPtextNumber, bsName: this.formBsName, amount: this.formAmout, vatAmount: this.text, vatTax: this.vrtrate, vatAgent: this.vrtrateag, freeAmount: this.charge, branch: this.formBranch, color: 'add', delete: false, update: false, tempInput: this.tempInput,createBy:"System",updateBy:"System"
       };
       this.Dtdata.push(newData);
     }
@@ -267,22 +268,22 @@ export class Lab2Component implements OnInit {
       'Content-Type': 'application/json',
     });
 
+    if (confirm("คุณต้องการบันทึกไหม?") == true) {
+      this.loading = true;
 
-    this.loading = true;
-
-    this.http.post<any>('http://localhost:8778/sunvat/saveAll', this.Dtdata, { headers }).subscribe(
-      () => {
-        this.searchDT();
-        this.loading = false;
-        this.closeC();
-      },
-      (error) => {
-        console.error('Error saving data:', error);
-        this.loading = false;
-        alert("ไม่สามารถบันทึกได้กรุณาลองใหม่อีกครั้ง");
-      }
-    );
-
+      this.http.post<any>('http://localhost:8778/sunvat/saveAll', this.Dtdata, { headers }).subscribe(
+        () => {
+          this.searchDT();
+          this.loading = false;
+          alert("บันทึกข้อมูลเรียบร้อย");
+        },
+        (error) => {
+          console.error('Error saving data:', error);
+          this.loading = false;
+          alert("ไม่สามารถบันทึกได้กรุณาลองใหม่อีกครั้ง");
+        }
+      );
+    };
 
     console.log(this.index);
   }
@@ -298,23 +299,6 @@ export class Lab2Component implements OnInit {
       showConfirmButton: false,
       timer: 1500,
     });
-  }
-
-  searchDTNew(value: any) {
-    console.log(this.headNumber);
-    this.http.get<any>(`http://localhost:8778/sunvat/getDT?fk=${value}`, {}).toPromise().then((response) => {
-      this.Dtdata = [...response];
-      this.filterDataDt();
-      this.headNumber = value;
-      this.close();
-    });
-  }
-
-  closeC() {
-    this.confirmModel.hide();
-  }
-  openC() {
-    this.confirmModel.show();
   }
 
 }

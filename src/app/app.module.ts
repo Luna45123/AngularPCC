@@ -25,6 +25,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { WelcomeComponent } from './welcome/welcome.component';
 import { OiiaoiiaComponent } from './oiiaoiia/oiiaoiia.component';
+import { Lab2v2Component } from './lab2v2/lab2v2.component';
 
 registerLocaleData(th);
 defineLocale('th', thBeLocale);
@@ -34,6 +35,7 @@ const routes: Routes = [
   {path: 'lab1', component:TableComponent },
   {path: 'home', component: WelcomeComponent },
   {path: 'lab2', component:Lab2Component },
+  {path: 'lab2v2', component:Lab2v2Component },
   {path: 'oiiaoiia', component:OiiaoiiaComponent },
 
 
@@ -50,6 +52,7 @@ const routes: Routes = [
     NotFoundComponent,
     WelcomeComponent,
     OiiaoiiaComponent,
+    Lab2v2Component,
   ],
   imports: [
     BrowserModule,

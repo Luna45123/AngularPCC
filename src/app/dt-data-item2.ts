@@ -1,4 +1,4 @@
-export interface DtDataItem {
+export interface DtDataItem2 {
     id: any;
     bookRef: any;
     vdtNo: any;
@@ -15,6 +15,7 @@ export interface DtDataItem {
     delete:boolean;
     update:boolean;
     pnum:String;
+    tempInput:String;
     createBy:String;
     updateBy:String;
 }
