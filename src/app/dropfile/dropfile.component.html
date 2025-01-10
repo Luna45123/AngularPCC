@@ -1,0 +1,97 @@
+<button class="btn btn-secondary ml-5 mb-5 mt-5" (click)="opendrop()">เพิ่มเอกสาร</button>
+
+<!-- <div class="file-preview" *ngIf="files.length > 0">
+    <p>Selected Files:</p>
+    <ul>
+        <li *ngFor="let file of files; let i = index" (click)="onFileClick(i)">
+            <strong>{{ file.name }}</strong>
+            <span>{{" C:/" + file.name }}</span>
+        </li>
+    </ul>
+</div> -->
+
+
+<nz-table #basicTable class="table-model" [nzData]="cdata" [nzBordered]="true" [nzShowPagination]="false ">
+    <div class="tableModel">
+        <thead>
+            <tr class="table-model">
+                <th class="text-center">ประเภท</th>
+                <th class="text-center">ชื่อ</th>
+                <th class="text-center">Path</th>
+                <th class="text-center">วันที่นำเข้า</th>
+                <th class="text-center">Action</th>
+            </tr>
+        </thead>
+    </div>
+
+    <tbody>
+        <tr class="text-center con" *ngFor="let file of base64Files; let i = index">
+            <td>pdf</td>
+            <td>{{file.name }}</td>
+            <td>{{file.path}}</td>
+            <td>{{file.time }}</td>
+            <td><button class="btn btn-secondary" (click)="onFileClick(i)">ViewPDF</button> <button class="btn btn-danger ml-2" (click)="deletePdf(file.id)">Delete</button></td>
+        </tr>
+
+    </tbody>
+
+
+
+</nz-table>
+
+
+
+<div class="modal fade" bsModal #pdfModal="bs-modal" id="exampleModal" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalLabel" aria-hidden="true" (onHidden)="onPdfModalClosed()">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">PDF View</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"(click)="pdfModal.hide()" >&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <!-- PDF Viewer -->
+                <iframe width="100%" height="768px" *ngIf="pdf" [src]="pdf"></iframe>
+
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                    (click)="pdfModal.hide()">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" bsModal #dropfileModal="bs-modal" id="exampleModal" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">PDF View</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" (click)="dropfileModal.hide()">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <div class="drop-zone" (dragover)="onDragOver($event)" (dragleave)="onDragLeave($event)"
+                    (drop)="onDrop($event)" (click)="fileInput.click()">
+                    <p>Click or Drag & Drop your PDF files here</p>
+                    <input type="file" accept="application/pdf" (change)="onFileSelected($event)" hidden #fileInput
+                        multiple />
+                </div>
+
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="dropfileModal.hide()">Close</button>
+            </div>
+        </div>
+    </div>

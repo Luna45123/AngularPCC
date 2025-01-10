@@ -26,6 +26,8 @@ import { NotFoundComponent } from './not-found/not-found.component';
 import { WelcomeComponent } from './welcome/welcome.component';
 import { OiiaoiiaComponent } from './oiiaoiia/oiiaoiia.component';
 import { Lab2v2Component } from './lab2v2/lab2v2.component';
+import { EmailComponent } from './email/email.component';
+import { DropfileComponent } from './dropfile/dropfile.component';
 
 registerLocaleData(th);
 defineLocale('th', thBeLocale);
@@ -37,6 +39,8 @@ const routes: Routes = [
   {path: 'lab2', component:Lab2Component },
   {path: 'lab2v2', component:Lab2v2Component },
   {path: 'oiiaoiia', component:OiiaoiiaComponent },
+  {path: 'email', component:EmailComponent},
+  {path: 'drop', component:DropfileComponent},
 
 
   { path: '**', component: NotFoundComponent },
@@ -53,6 +57,8 @@ const routes: Routes = [
     WelcomeComponent,
     OiiaoiiaComponent,
     Lab2v2Component,
+    EmailComponent,
+    DropfileComponent,
   ],
   imports: [
     BrowserModule,

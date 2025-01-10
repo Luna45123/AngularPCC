@@ -151,7 +151,7 @@
                 <button type="button" class="btn btn-custom" style="width: 100px;" (click)="openC()" [disabled]="loading">บันทึก</button>
             </div>
             <div class="d-btn mb-5 mr-3">
-                <button type="button" class="btn btn-secondary" style="width: 105px;">พิมพ์ใบสรุป</button>
+                <button type="button" class="btn btn-secondary" style="width: 105px;" (click)="callPdfModal()">พิมพ์ใบสรุป</button>
             </div>
             <div class="d-btn mb-5">
                 <button type="button" class="btn btn-danger" style="width: 100px;" (click)="clearAll()">ล้างจอภาพ</button>
@@ -224,7 +224,7 @@
             </button>
         </div>
         <div class="modal-body">
-            ข้อมูลจะไม่สามารถนำกลับมาได้อีก
+            ข้อมูลจะไม่สามารถย้อนกลับมาได้
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="closeC()">Close</button>
@@ -233,6 +233,27 @@
         </div>
     </div>
     </div>
+
+
+    <!-- Modal -->
+<div class="modal fade" bsModal #pdfModal = "bs-modal" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">ใบสรุป</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true" (click)="closePdfModal()">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <iframe width="100%" height="768px" *ngIf="pdf" [src]="pdf"></iframe>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="closePdfModal()">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
     
 </div>
 

@@ -6,6 +6,7 @@ import { ModalDirective } from 'ngx-bootstrap/modal';
 import { DtDataItem } from '../dt-data-item';
 import { ThDatePipe } from '../shared/th-date.pipe';
 import Swal from 'sweetalert2';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-lab2',
@@ -18,8 +19,10 @@ import Swal from 'sweetalert2';
 export class Lab2Component implements OnInit {
   @ViewChild('seeModal') seeModal!: ModalDirective;
   @ViewChild('confirmModal') confirmModel!: ModalDirective;
+  @ViewChild('pdfModal') pdfModal!: ModalDirective;
   bsConfig: Partial<BsDatepickerConfig>;
-  constructor(private http: HttpClient, private datepipe: DatePipe) {
+  pdf: SafeResourceUrl | undefined;
+  constructor(private http: HttpClient, private datepipe: DatePipe, private sanitizer: DomSanitizer) {
     this.bsConfig = Object.assign({}, { locale: 'th', containerClass: 'theme-default', isAnimated: true, showWeekNumbers: false, dateInputFormat: 'DD/MM/YYYY' });
   }
 
@@ -92,12 +95,12 @@ export class Lab2Component implements OnInit {
 
   currentPageIndexDt: any;
 
-  tempInput: String = "";
+  headValue: String = "";
 
   searchHDApi() {
-    console.log(this.headNumber);
     if (this.date == '' || this.date == null) {
       this.searchDT();
+      this.headValue = this.headNumber;
     } else {
       this.open();
       this.http.get<any>(`http://localhost:8778/sunvat/getBydateHD?date=${this.datepipe.transform(this.date, 'dd/MM/yyyy')}`, {}).toPromise().then((response) => {
@@ -317,4 +320,22 @@ export class Lab2Component implements OnInit {
     this.confirmModel.show();
   }
 
+  closePdfModal() {
+    this.pdfModal.hide();
+  }
+
+  callPdfModal() {
+    if (this.headValue != '') {
+      this.pdfModal.show();
+      this.http.get(`http://localhost:8778/sunvat/create-report?fk=${this.headValue}`, { responseType: 'text' })
+        .subscribe((response) => {
+          const pdfBase64 = `data:application/pdf;base64,${response}`;
+          this.pdf = this.sanitizer.bypassSecurityTrustResourceUrl(pdfBase64);
+        });
+    }
+
+  }
+
+
+  
 }

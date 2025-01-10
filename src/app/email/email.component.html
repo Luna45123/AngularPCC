@@ -1,0 +1,5 @@
+<input [(ngModel)]="email" type="email" placeholder="Enter email" />
+<button (click)="checkEmail()">Check Email</button>
+<div *ngIf="emailValid !== null">
+  {{ emailValid ? 'Email is valid and exists.' : 'Invalid or non-existent email.' }}
+</div>
